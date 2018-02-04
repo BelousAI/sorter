@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /* Объект данного класса собирает ошибки при каждом проваленном
- * акте валидации.*/
+ * акте валидации.
+ */
 class Notification {
     private List<Error> errors = new ArrayList<>();
 

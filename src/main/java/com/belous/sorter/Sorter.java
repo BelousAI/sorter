@@ -33,9 +33,16 @@ class Sorter {
     void sortFileContent(String fileNameIn, String fileNameOut) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileNameIn));
             PrintWriter writer = new PrintWriter(new FileWriter(fileNameOut))) {
-
-            List<?> list = isStr ? getSortedStrList(reader) : getSortedIntList(reader);
-            writeToFile(list, writer);
+            if (isStr) {
+                List<String> list = getStrList(reader);
+                sortStrList(list);
+                writeToFile(list, writer);
+            }
+            else {
+                List<Integer> list = getIntList(reader);
+                sortIntList(list);
+                writeToFile(list, writer);
+            }
         } catch (IOException e) {
             System.err.println("Ошибка!\nВозможные причины:\n" +
                     "- Входной файл не доступен для чтения.\n" +
@@ -48,7 +55,7 @@ class Sorter {
         }
     }
 
-    private List<Integer> getSortedIntList(BufferedReader br) throws IOException {
+    private List<Integer> getIntList(BufferedReader br) throws IOException {
         ArrayList<Integer> intList = new ArrayList<>(100);
         String line;
         while ((line = br.readLine()) != null) {
@@ -56,27 +63,31 @@ class Sorter {
             intList.add(num);
         }
         intList.trimToSize();
-
-        Comparator<Integer> intComp = Integer::compare;
-        if (isAsc) {
-            sort(intList, intComp);
-        } else {
-            sort(intList, intComp.reversed());
-        }
         return intList;
     }
 
-    private List<String> getSortedStrList(BufferedReader br) throws IOException {
+    private void sortIntList(List<Integer> list) {
+        Comparator<Integer> intComp = Integer::compare;
+        if (isAsc) {
+            sort(list, intComp);
+        } else {
+            sort(list, intComp.reversed());
+        }
+    }
+
+    private List<String> getStrList(BufferedReader br) throws IOException {
         ArrayList<String> strList = new ArrayList<>(100);
         String line;
         while ((line = br.readLine()) != null) {
             strList.add(line);
         }
         strList.trimToSize();
-
-        Comparator<String> strComp = String::compareTo;
-        sort(strList, strComp);
         return strList;
+    }
+
+    private void sortStrList(List<String> list) {
+        Comparator<String> strComp = String::compareTo;
+        sort(list, strComp);
     }
 
     //Сортирует список методом вставок(Insertion sort)

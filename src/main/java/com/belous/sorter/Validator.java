@@ -6,7 +6,8 @@ import java.io.File;
  * командной строки с возможностью:
  * 1. замены выброса искючений на создание уведомлений(Notification);
  * 2. выведения пользователю сразу всех ошибок, чтобы тот исправил их за одну
- * операцию.*/
+ * операцию.
+ */
 class Validator {
     private String[] args;
     private String fileNameIn;
